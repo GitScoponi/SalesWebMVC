@@ -11,6 +11,11 @@ namespace SalesWebMVC.Models
         {
         }
 
+        public Department(string nome)
+        {
+            Nome = nome;
+        }
+
         public Department(int id, string nome)
         {
             Id = id;
