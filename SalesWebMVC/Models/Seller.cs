@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,12 +32,28 @@ namespace SalesWebMVC.Models
         }
 
         public int Id { get; set; }
+
+        [Display(Name = "Name")]
         public string Nome { get; set; }
-        public string  Email { get; set; }
+
+        [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+
+        [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
+
+        [Display(Name = "Base Salary")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double BaseSalary { get; set; }
+
         public int DepartmentId { get; set; }
+
         public Department Department { get; set; }
+
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 
         public void addSales(SalesRecord sales)
@@ -47,7 +64,7 @@ namespace SalesWebMVC.Models
         {
             Sales.Remove(sales);
         }
-        public double totalSales(DateTime init,DateTime final)
+        public double totalSales(DateTime init, DateTime final)
         {
             return Sales.Where(x => x.Date >= init && x.Date <= final).Sum(x => x.Amount);
         }
