@@ -1,0 +1,48 @@
+﻿@model Seller
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div>
+    <h4>Seller</h4>
+    <hr />
+    <dl class="d-sm-inline">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BaseSalary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BaseSalary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Department.Nome)
+        </dd>
+    </dl>
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Edit" class="btn btn-info" />
+        <a asp-action="Index">Back to list</a>
+    </form>
+</div>

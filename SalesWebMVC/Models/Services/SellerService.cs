@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace SalesWebMVC.Models.Services
         }
         public Seller FindById(int? id)
         {
-            return _context.Seller.Where(x => x.Id == id).FirstOrDefault();
+            return _context.Seller.Include(x=>x.Department).Where(x => x.Id == id).FirstOrDefault();
         }
         public void Remove(int id)
         {
