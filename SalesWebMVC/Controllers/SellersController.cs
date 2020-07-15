@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SalesWebMVC.Models;
 using SalesWebMVC.Models.Services;
 using SalesWebMVC.Models.Services.Exceptions;
 using SalesWebMVC.Models.ViewModels;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SalesWebMVC.Controllers
 {
@@ -22,29 +20,29 @@ namespace SalesWebMVC.Controllers
             _departmentsService = departmentsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _sellerService.findAll();
+            var list = await _sellerService.findAllAsync();
             return View(list);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _departmentsService.FindAll();
+            var departments = await _departmentsService.FindAllAsync();
             var viewModel = new SellerFormViewModel { Departments = departments };
             return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller seller)
+        public async Task<IActionResult> Create(Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                var departments = _departmentsService.FindAll().ToList();
+                var departments = await _departmentsService.FindAllAsync();
                 SellerFormViewModel viewModel = new SellerFormViewModel { Departments = departments, Seller = seller };
                 return View(viewModel);
             }
-            _sellerService.Insert(seller);
+            await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
 
@@ -64,37 +62,37 @@ namespace SalesWebMVC.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _sellerService.Remove(id);
+            await _sellerService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
 
         }
 
         [HttpGet]
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            var obj = _sellerService.FindById(id);
+            var obj = await _sellerService.FindById(id);
             return View(obj);
         }
 
-        public IActionResult Update(int? id)
+        public async Task< IActionResult> Update(int? id)
         {
-            var obj = _sellerService.FindById(id);
+            var obj = await _sellerService.FindById(id);
             if (id == null || obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
-            var department = _departmentsService.FindAll();
+            var department = await _departmentsService.FindAllAsync();
             SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = department };
             return View(viewModel);
         }
         [HttpPost]
-        public IActionResult Update(int id, Seller seller)
+        public async Task<IActionResult> Update(int id, Seller seller)
         {
             if (!ModelState.IsValid)
             {
-                var departments = _departmentsService.FindAll().ToList();
+                var departments = await _departmentsService.FindAllAsync();
                 SellerFormViewModel viewModel = new SellerFormViewModel { Departments = departments, Seller = seller };
                 return View(viewModel);
             }
@@ -104,7 +102,7 @@ namespace SalesWebMVC.Controllers
             }
             try
             {
-                _sellerService.Update(seller);
+                await _sellerService.UpdateAsync(seller);
                 return RedirectToAction(nameof(Index));
 
             }

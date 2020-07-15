@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SalesWebMVC.Models.Services
 {
-    public class SellerService 
+    public class SellerService
     {
         private readonly SalesWebMVCContext _context;
 
@@ -16,35 +16,37 @@ namespace SalesWebMVC.Models.Services
             _context = context;
         }
 
-        public List<Seller> findAll()
+        public async Task<List<Seller>> findAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
-        public void Insert(Seller obj)
+        public async Task InsertAsync(Seller obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public Seller FindById(int? id)
+        public async Task<Seller> FindById(int? id)
         {
-            return _context.Seller.Include(x=>x.Department).Where(x => x.Id == id).FirstOrDefault();
+            return await _context.Seller.Include(x => x.Department).Where(x => x.Id == id).FirstOrDefaultAsync();
         }
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
             var obj = _context.Seller.Find(id);
             _context.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
-            if(!_context.Seller.Any(x=>x.Id == obj.Id)){
+            bool hasId = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
+            if (!hasId)
+            {
                 throw new NotFoundException("Id not found");
             }
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
             }
             catch (DbUpdateException e)
