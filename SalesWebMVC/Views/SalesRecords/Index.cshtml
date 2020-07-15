@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Sales Records";
+}
+
+<h2>@ViewData["Title"] </h2>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <form class="form-inline" asp-action="SimpleSearch">
+            <fieldset>
+                <legend>Simple Search</legend>
+                <div class="form-group">
+                    <label for="minDate" class="col-lg-4  ">Min Date</label>
+                    <div class="col-lg-8">
+                        <input type="date" name="minDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="maxDate" class="col-lg-4  ">Max Date</label>
+                    <div class="col-lg-8">
+                        <input type="date" name="maxDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 offset-2  mt-3">
+                        <input type="submit" class="btn btn-primary" value="Submit" />
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form class="form-inline" asp-action="GroupingSearch">
+            <fieldset>
+                <legend>Group Search</legend>
+                <div class="form-group">
+                    <label for="minDate" class="col-lg-4">Min Date</label>
+                    <div class="col-lg-8">
+                        <input type="date" name="minDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="maxDate" class="col-lg-4   ">Max Date</label>
+                    <div class="col-lg-8">
+                        <input type="date" name="maxDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 offset-2 mt-3">
+                        <input type="submit" class="btn btn-primary" value="Submit" />
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</div>
+
