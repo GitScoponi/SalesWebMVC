@@ -26,15 +26,24 @@ namespace SalesWebMVC.Models.Services
             _context.Add(obj);
             await _context.SaveChangesAsync();
         }
-        public async Task<Seller> FindById(int? id)
+        public async Task<Seller> FindByIdAsync(int? id)
         {
-            return await _context.Seller.Include(x => x.Department).Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await _context.Seller.Include(x => x.Department).FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task RemoveAsync(int id)
         {
+            try
+            {
             var obj = _context.Seller.Find(id);
             _context.Remove(obj);
             await _context.SaveChangesAsync();
+
+            }
+            catch (DbUpdateException e)
+            {
+
+                throw new IntegretyException(e.Message);
+            }
         }
         public async Task UpdateAsync(Seller obj)
         {

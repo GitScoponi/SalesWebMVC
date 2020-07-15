@@ -46,39 +46,49 @@ namespace SalesWebMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(int? id)
+        public async Task< IActionResult> Delete(int? id)
         {
+           
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = _sellerService.FindById(id);
+            var obj = await _sellerService.FindByIdAsync(id);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             return View(obj);
+            
+           
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _sellerService.RemoveAsync(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _sellerService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegretyException e)
+            {
 
+                return Error(e.Message);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
-            var obj = await _sellerService.FindById(id);
+            var obj = await _sellerService.FindByIdAsync(id);
             return View(obj);
         }
 
         public async Task< IActionResult> Update(int? id)
         {
-            var obj = await _sellerService.FindById(id);
+            var obj = await _sellerService.FindByIdAsync(id);
             if (id == null || obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
@@ -124,7 +134,7 @@ namespace SalesWebMVC.Controllers
                 Message = msg,
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
-            return View(viewModel);
+            return View("Error",viewModel);
         }
 
     }
